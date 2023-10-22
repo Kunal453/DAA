@@ -1,3 +1,5 @@
+// Design 8-Queens matrix having first Queen placed. Use backtracking to place remaining
+//Queens to generate the final 8-queen’s matrix.
 #include <bits/stdc++.h>
 using namespace std;
 
