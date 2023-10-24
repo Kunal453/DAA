@@ -1,64 +1,64 @@
-//Implement job sequencing with deadlines using a greedy method.
+// Write a program to implement Huffman Encoding using a greedy strategy.
 
-#include <iostream>
-#include <algorithm>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-struct Job
-{
-    char id;
-    int deadline;
-    int profit;
+struct MinHeapNode{
+	char data;
+	int freq;
+	MinHeapNode* left, *right;
+	MinHeapNode(char data, int freq){
+		left=right=nullptr;
+		this->data = data;
+		this->freq = freq;
+	}
 };
 
-bool comparison(Job a, Job b)
-{
-    return (a.profit > b.profit);
+
+void printCodes(struct MinHeapNode* root, string str){
+	if(root == nullptr){
+		return;
+	}
+	if(root->data != '$'){
+		cout << root->data << ": " << str << endl;
+	}
+	printCodes(root->left, str + "0");
+	printCodes(root->right, str + "1");
 }
 
-void printJobScheduling(Job arr[], int n)
-{
-    sort(arr, arr + n, comparison);
+struct compare{
+	bool operator()(MinHeapNode* a, MinHeapNode* b){
+		return (a->freq > b->freq);
+	}
+};
 
-    int result[n];
-    bool slot[n];
-
-    for (int i = 0; i < n; i++)
-    {
-        slot[i] = false;
-
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = min(n, arr[i].deadline) - 1; j >= 0; j--)
-            {
-                if (slot[j] == false)
-                {
-                    result[j] = i;
-                    slot[j] = true;
-                    break;
-                }
-            }
-        }
-    }
-    for (int i = 0; i < n; i++)
-        if (slot[i])
-            cout << arr[result[i]].id << " ";
+void HuffmanCode(char data[], int freq[], int size){
+	struct 	MinHeapNode *left, *right, *temp;
+	
+	priority_queue<MinHeapNode*, vector<MinHeapNode*>, compare> minHeap;
+	
+	for(int i = 0; i < size; i++){
+		minHeap.push(new MinHeapNode(data[i], freq[i]));
+	}
+	
+	while(minHeap.size() != 1){
+		left = minHeap.top();
+		minHeap.pop();
+		right = minHeap.top();
+		minHeap.pop();
+		temp = new MinHeapNode('$', left->freq + right->freq);
+		temp->left = left;
+		temp->right = right;
+		minHeap.push(temp);
+	}
+	printCodes(minHeap.top(), "");
 }
 
-int main()
-{
-    Job arr[] = {{'a', 2, 100},
-                 {'b', 1, 19},
-                 {'c', 2, 27},
-                 {'d', 1, 25},
-                 {'e', 3, 15}};
 
-    int n = sizeof(arr) / sizeof(arr[0]);
-    cout << "Following is maximum profit sequence of jobs "
-            "\n";
-
-    // Function call
-    printJobScheduling(arr, n);
-    return 0;
+int main(){
+	char data[] = {'A', 'B', 'C', 'D'};
+	int freq[] = {23,12,34,10};
+	HuffmanCode(data, freq, 4);
+	return 0;
 }
