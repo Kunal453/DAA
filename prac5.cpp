@@ -1,93 +1,32 @@
-// Design 8-Queens matrix having first Queen placed. Use backtracking to place remaining
-//Queens to generate the final 8-queen’s matrix.
-#include <bits/stdc++.h>
-using namespace std;
+def n_queen(n):
+    col = set()
+    pdiag = set()
+    ndiag = set()
+    res = []
+    board = [["."]*n for i in range(n)]
+    
+    def backtrack(r):
+        if  r == n:
+            copy = [" ".join(row) for row in board]
+            res.append(copy)
+            return
+        for c in range(n):
+            if c in col or (r + c) in pdiag or (r - c) in ndiag:
+                continue
+            col.add(c)
+            pdiag.add(r + c)
+            ndiag.add(r - c)
+            board[r][c] = "Q"
+            backtrack(r + 1)
+            col.remove(c)
+            pdiag.remove(r + c)
+            ndiag.remove(r - c)
+            board[r][c] = "."
+    backtrack(0)
+    for sol in res:
+        for row in sol:
+            print(row)
+        print()
 
-bool isSafe(int **arr, int x, int y, int n)
-{
-    for (int row = 0; row < x; row++)
-    {
-        if (arr[row][y] == 1)
-        {
-            return false;
-        }
-    }
-
-    int row = x;
-    int col = y;
-    while (row >= 0 && col >= 0)
-    {
-        if (arr[row][col] == 1)
-        {
-            return false;
-        }
-        row--;
-        col--;
-    }
-    row = x;
-    col = y;
-    while (row >= 0 && col < n)
-    {
-        if (arr[row][col] == 1)
-        {
-            return false;
-        }
-        row--;
-        col++;
-    }
-    return true;
-}
-
-void printboard(int **arr, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (arr[i][j] == 1)
-                cout << "[Q]";
-            else
-                cout << "[]";
-        }
-        cout << endl;
-    }
-    cout << endl;
-    cout << endl;
-}
-
-void nQueen(int **arr, int x, int n)
-{
-    if (x == n)
-    {
-        printboard(arr, n);
-        return;
-    }
-    for (int col = 0; col < n; col++)
-    {
-        if (isSafe(arr, x, col, n))
-        {
-            arr[x][col] = 1;
-            nQueen(arr, x + 1,n);
-            arr[x][col] = 0;
-        }
-    }
-}
-
-int main()
-{
-    int n;
-    cin >> n;
-    int **arr = new int *[n];
-    for (int i = 0; i < n; i++)
-    {
-        arr[i] = new int[n];
-        for (int j = 0; j < n; j++)
-        {
-            arr[i][j] = 0;
-        }
-    }
-
-    nQueen(arr, 0, n);
-    cout << "-------All possible solutions-------";
-    return 0;
-}
+if __name__ == "__main__":
+    n_queen(4)
