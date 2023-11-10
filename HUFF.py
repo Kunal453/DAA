@@ -1,3 +1,4 @@
+// Huff man coding
 import heapq
 class node:
     def __init__(self,freq,symbol,left=None, right=None):
