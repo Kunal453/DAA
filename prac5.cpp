@@ -1,3 +1,4 @@
+#n_queen
 def n_queen(n):
     col = set()
     pdiag = set()
