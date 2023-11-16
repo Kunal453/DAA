@@ -1,3 +1,4 @@
+# knapsack 0/1 branch and bound
 def KsK(capacity,profit,wt,n):
     k = [[ 0 for i in range(capacity + 1)] for x in range( n + 1)]
     print(capacity)
