@@ -1,3 +1,4 @@
+// Multi-threaded merge sort
 #include <iostream>
 #include <vector>
 #include <thread>
